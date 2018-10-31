@@ -49,6 +49,13 @@ module DeepL
       def path
         'translate'
       end
+      def url
+        "#{host}/#{API_VERSION}/#{path}"
+      end
+      
+      def host
+        api.configuration.host
+      end
     end
   end
 end

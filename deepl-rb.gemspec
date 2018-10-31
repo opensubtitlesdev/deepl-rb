@@ -6,13 +6,13 @@
 
 Gem::Specification.new do |s|
   s.name = "deepl-rb".freeze
-  s.version = "2.1.0"
+  s.version = "2.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
-  s.authors = ["Daniel Herzog".freeze]
+  s.authors = ["Daniel Herzog, Julien Ramel".freeze]
   s.date = "2018-07-24"
-  s.description = "A simple ruby wrapper for the DeepL translation API (v1). For more information, check this: https://www.deepl.com/docs/api-reference.html".freeze
+  s.description = "A simple ruby wrapper for the DeepL translation API (v2). For more information, check this: https://www.deepl.com/docs/api-reference.html".freeze
   s.email = "info@danielherzog.es".freeze
   s.extra_rdoc_files = [
     "LICENSE.md",

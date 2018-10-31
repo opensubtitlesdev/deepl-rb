@@ -1,7 +1,7 @@
 module DeepL
   module Requests
     class Base
-      API_VERSION = 'v1'.freeze
+      API_VERSION = 'v2'.freeze
 
       attr_reader :api, :response, :options
 
@@ -33,6 +33,7 @@ module DeepL
       end
 
       def post(payload)
+        puts "post payload ! #{uri.request_uri}"
         request = Net::HTTP::Post.new(uri.request_uri)
         request.set_form_data(payload.reject { |_, v| v.nil? })
         response = http.request(request)
