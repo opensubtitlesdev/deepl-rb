@@ -4,9 +4,9 @@ module DeepL
   module Requests
     class Languages < Base
       def initialize(api, options = {})
-        options = { target: "type" }.merge(options)
+        options[:target] = "type"
         puts "initialize languages #{options.inspect}"
-        #set_option("target", "type")
+
         super(api, options)
       end
 
