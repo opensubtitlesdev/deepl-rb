@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Coverage
 require 'simplecov'
 SimpleCov.start
@@ -25,5 +27,5 @@ end
 
 # General helpers
 def build_deepl_api
-  DeepL::API.new(DeepL::Configuration.new)
+  DeepL::API.new(DeepL::Configuration.new(host: 'https://api-free.deepl.com'))
 end

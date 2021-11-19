@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe DeepL::Configuration do
@@ -9,15 +11,17 @@ describe DeepL::Configuration do
       it 'should use default attributes' do
         expect(subject.auth_key).to eq(ENV['DEEPL_AUTH_KEY'])
         expect(subject.host).to eq('https://api.deepl.com')
+        expect(subject.version).to eq('v2')
       end
     end
 
     context 'When using custom configuration attributes' do
-      let(:attributes) { { auth_key: 'SAMPLE', host: 'http://www.example.org' } }
+      let(:attributes) { { auth_key: 'SAMPLE', host: 'https://api-free.deepl.com', version: 'v1' } }
 
       it 'should use custom attributes' do
         expect(subject.auth_key).to eq(attributes[:auth_key])
         expect(subject.host).to eq(attributes[:host])
+        expect(subject.version).to eq(attributes[:version])
       end
     end
   end

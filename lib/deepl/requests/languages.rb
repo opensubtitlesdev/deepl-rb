@@ -2,24 +2,26 @@
 
 module DeepL
   module Requests
-    class Usage < Base
+    class Languages < Base
       def initialize(api, options = {})
         super(api, options)
       end
 
       def request
-        build_usage(*get)
+        build_languages(*get)
       end
 
       private
 
-      def build_usage(request, response)
+      def build_languages(request, response)
         data = JSON.parse(response.body)
-        Resources::Usage.new(data['character_count'], data['character_limit'], request, response)
+        data.map do |language|
+          Resources::Language.new(language['language'], language['name'], request, response)
+        end
       end
 
       def path
-        'usage'
+        'languages'
       end
     end
   end

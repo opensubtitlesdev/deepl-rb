@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -- Dependencies
 require 'json'
 require 'net/http'
@@ -8,14 +10,17 @@ require 'deepl/exceptions/request_error'
 require 'deepl/exceptions/authorization_failed'
 require 'deepl/exceptions/bad_request'
 require 'deepl/exceptions/limit_exceeded'
+require 'deepl/exceptions/quota_exceeded'
 
 # -- Requests
 require 'deepl/requests/base'
+require 'deepl/requests/languages'
 require 'deepl/requests/translate'
 require 'deepl/requests/usage'
 
 # -- Responses and resources
 require 'deepl/resources/base'
+require 'deepl/resources/language'
 require 'deepl/resources/text'
 require 'deepl/resources/usage'
 
@@ -31,6 +36,10 @@ module DeepL
 
   def api
     @api ||= API.new(configuration)
+  end
+
+  def languages(options = {})
+    Requests::Languages.new(api, options).request
   end
 
   def translate(text, source_lang, target_lang, options = {})

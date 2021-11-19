@@ -2,7 +2,7 @@
 
 # DeepL for ruby
 
-A simple ruby wrapper for the [DeepL translation API (v1)](https://www.deepl.com/api.html).
+A simple ruby wrapper for the [DeepL translation API (v2)](https://www.deepl.com/api.html).
 
 ## Installation
 
@@ -35,14 +35,43 @@ DeepL.configure do |config|
 end
 ```
 
-You can also configure the api host:
+You can also configure the API host and the API version:
 
 ```rb
 DeepL.configure do |config|
   config.auth_key = 'your-api-token'
-  config.host = 'https://test-api.deepl.com' # Default value is 'https://api.deepl.com'
+  config.host = 'https://api-free.deepl.com' # Default value is 'https://api.deepl.com'
+  config.version = 'v1' # Default value is 'v2'
 end
 ```
+
+### Available languages
+
+Available languages can be retrieved via API:
+
+```rb
+languages = DeepL.languages
+
+puts languages.class
+# => Array
+puts languages.first.class
+# => DeepL::Resources::Language
+puts "#{languages.first.code} -> #{languages.first.name}"
+# => "ES -> Spanish"
+```
+
+Note that source and target languages may be different, which can be retrieved by using the `type`
+option:
+
+```rb
+puts DeepL.languages(type: :source).count
+# => 24
+puts DeepL.languages(type: :target).count
+# => 26
+```
+
+All languages are also defined on the
+[official API documentation](https://www.deepl.com/docs-api/translating-text/)
 
 ### Translate
 
@@ -78,18 +107,6 @@ puts translations.first.class
 # => DeepL::Resources::Text
 ```
 
-Here's a list of available language codes:
-
-| Language code   | Language
-| --------------- | ---------------
-| `EN`            | English
-| `DE`            | German
-| `FR`            | French
-| `ES`            | Spanish
-| `IT`            | Italian
-| `NL`            | Dutch
-| `PL`            | Polish
-
 You can also use custom query parameters, like `tag_handling`, `split_sentences`, `non_splitting_tags` or `ignore_tags`:
 
 ```rb
@@ -107,10 +124,13 @@ The following parameters will be automatically converted:
 | --------------------- | ---------------
 | `preserve_formatting` | Converts `false` to `'0'` and `true` to `'1'`
 | `split_sentences`     | Converts `false` to `'0'` and `true` to `'1'`
+| `outline_detection`   | Converts `false` to `'0'` and `true` to `'1'`
 | `non_splitting_tags`  | Converts arrays to strings joining by commas
 | `ignore_tags`         | Converts arrays to strings joining by commas
+| `formality`           | No conversion applied
+| `glossary_id`         | No conversion applied
 
-### Usage
+### Monitor usage
 
 To check current API usage, use:
 
@@ -127,11 +147,12 @@ puts usage.character_limit
 
 You can capture and process exceptions that may be raised during API calls. These are all the possible exceptions:
 
-| Exception class | Descripcion |
+| Exception class | Description |
 | --------------- | ----------- |
-| `DeepL::Exceptions::AuthorizationFailed` | The authorization process has failed. Check your auth_key value. |
+| `DeepL::Exceptions::AuthorizationFailed` | The authorization process has failed. Check your `auth_key` value. |
 | `DeepL::Exceptions::BadRequest` | Something is wrong in your request. Check `exception.message` for more information. |
 | `DeepL::Exceptions::LimitExceeded` | You've reached the API's call limit. |
+| `DeepL::Exceptions::QuotaExceeded` | You've reached the API's character limit. |
 | `DeepL::Exceptions::RequestError` | An unkown request error. Check `exception.response` and `exception.request` for more information. |
 
 An exampling of handling a generic exception:
@@ -145,8 +166,30 @@ rescue DeepL::Exceptions::RequestError => e
   puts "Response body: #{e.response.body}"
   puts "Request body: #{e.request.body}"
 end
-
 ```
+
+## Integrations
+
+### Ruby on Rails
+
+You may use this gem as a standalone service by creating an initializer on your
+`config/initializers` folder with your DeepL configuration. For example:
+
+```rb
+# config/initializers/deepl.rb
+DeepL.configure do |config|
+  # Your configuration goes here
+end
+```
+
+Since the DeepL service is defined globally, you can use service anywhere in your code
+(controllers, models, views, jobs, plain ruby objects… you name it).
+
+### i18n-tasks
+
+You may also take a look at [`i18n-tasks`](https://github.com/glebm/i18n-tasks), which is a gem
+that helps you find and manage missing and unused translations. `deepl-rb` is used as one of the
+backend services to translate content.
 
 ## Development
 
@@ -163,11 +206,3 @@ To run tests (rspec and rubocop), use
 ```
 bundle exec rake test
 ```
-
-## Contributors
-
-This project has been developed by:
-
-| Avatar | Name | Nickname | Email |
-| ------ | ---- | -------- | ----- |
-| ![](http://www.gravatar.com/avatar/2ae6d81e0605177ba9e17b19f54e6b6c.jpg?s=64)  | Daniel Herzog | Wikiti | [info@danielherzog.es](mailto:info@danielherzog.es)

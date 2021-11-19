@@ -1,8 +1,14 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 group :development do
   # Gem management
   gem 'juwelier'
+end
+
+group :test, :development do
+  gem 'byebug', require: 'byebug'
 end
 
 group :test do
