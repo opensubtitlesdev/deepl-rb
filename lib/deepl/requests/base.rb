@@ -45,7 +45,9 @@ module DeepL
       end
 
       def get
-        request = Net::HTTP::Get.new(uri.request_uri)
+        myuri = uri.request_uri
+        puts "myuri params in get: #{myuri}"
+        request = Net::HTTP::Get.new(myuri)
         response = http.request(request)
 
         validate_response!(request, response)
@@ -94,6 +96,7 @@ module DeepL
       end
 
       def query_params
+        puts "query params in base #{options}"
         { auth_key: api.configuration.auth_key }.merge(options)
       end
     end

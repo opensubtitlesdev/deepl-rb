@@ -1,32 +1,32 @@
 # frozen_string_literal: true
 
 # -- Dependencies
-require 'json'
-require 'net/http'
+require "json"
+require "net/http"
 
 # -- Exceptions
-require 'deepl/exceptions/error'
-require 'deepl/exceptions/request_error'
-require 'deepl/exceptions/authorization_failed'
-require 'deepl/exceptions/bad_request'
-require 'deepl/exceptions/limit_exceeded'
-require 'deepl/exceptions/quota_exceeded'
+require "deepl/exceptions/error"
+require "deepl/exceptions/request_error"
+require "deepl/exceptions/authorization_failed"
+require "deepl/exceptions/bad_request"
+require "deepl/exceptions/limit_exceeded"
+require "deepl/exceptions/quota_exceeded"
 
 # -- Requests
-require 'deepl/requests/base'
-require 'deepl/requests/languages'
-require 'deepl/requests/translate'
-require 'deepl/requests/usage'
+require "deepl/requests/base"
+require "deepl/requests/languages"
+require "deepl/requests/translate"
+require "deepl/requests/usage"
 
 # -- Responses and resources
-require 'deepl/resources/base'
-require 'deepl/resources/language'
-require 'deepl/resources/text'
-require 'deepl/resources/usage'
+require "deepl/resources/base"
+require "deepl/resources/language"
+require "deepl/resources/text"
+require "deepl/resources/usage"
 
 # -- Other wrappers
-require 'deepl/api'
-require 'deepl/configuration'
+require "deepl/api"
+require "deepl/configuration"
 
 # -- Gem interface
 module DeepL
@@ -39,6 +39,7 @@ module DeepL
   end
 
   def languages(options = {})
+    #options = { target: "type" }.merge(options)
     Requests::Languages.new(api, options).request
   end
 

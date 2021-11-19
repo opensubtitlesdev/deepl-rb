@@ -3,17 +3,17 @@
 module DeepL
   module Resources
     class Language < Base
-      attr_reader :code, :name
+      attr_reader :code, :name, :formality
 
-      def initialize(code, name, *args)
+      def initialize(code, name, formality, *args)
         super(*args)
-
         @code = code
         @name = name
+        @formality = formality
       end
 
       def to_s
-        "#{code} - #{name}"
+        "#{code} - #{name} (#{formality})"
       end
     end
   end
