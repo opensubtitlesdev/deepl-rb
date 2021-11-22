@@ -20,7 +20,7 @@ module DeepL
 
       def option?(name)
         options.key?(name.to_s) || options.key?(name.to_sym)
-      end
+      end #
 
       def option(name)
         options[name.to_s] || options[name.to_sym]
@@ -46,7 +46,7 @@ module DeepL
 
       def get
         myuri = uri.request_uri
-        puts "myuri params in get: #{myuri}"
+        # puts "myuri params in get: #{myuri}"
         request = Net::HTTP::Get.new(myuri)
         response = http.request(request)
 
@@ -96,7 +96,7 @@ module DeepL
       end
 
       def query_params
-        puts "query params in base #{options}"
+        # puts "query params in base #{options}"
         { auth_key: api.configuration.auth_key }.merge(options)
       end
     end

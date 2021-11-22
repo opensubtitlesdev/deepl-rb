@@ -4,8 +4,8 @@ module DeepL
   module Requests
     class Languages < Base
       def initialize(api, options = {})
-        options[:target] = "type"
-        puts "initialize languages #{options.inspect}"
+        # options[:type] = "target"
+        #puts "initialize languages #{options.inspect}"
 
         super(api, options)
       end
@@ -28,12 +28,6 @@ module DeepL
       def path
         "languages"
       end
-
-      # def query_params
-      #   puts "query params in languages #{options}"
-      #   options = { target: "type" }.merge(options)
-      #   super
-      # end
     end
   end
 end
