@@ -11,6 +11,7 @@ require "deepl/exceptions/authorization_failed"
 require "deepl/exceptions/bad_request"
 require "deepl/exceptions/limit_exceeded"
 require "deepl/exceptions/quota_exceeded"
+require "deepl/exceptions/not_supported"
 
 # -- Requests
 require "deepl/requests/base"
@@ -39,7 +40,6 @@ module DeepL
   end
 
   def languages(options = {})
-    #options = { target: "type" }.merge(options)
     Requests::Languages.new(api, options).request
   end
 

@@ -3,8 +3,6 @@
 module DeepL
   module Requests
     class Base
-      API_VERSION = "v2".freeze
-
       attr_reader :api, :response, :options
 
       def initialize(api, options = {})
@@ -66,10 +64,10 @@ module DeepL
         return if response.is_a?(Net::HTTPSuccess)
 
         case response.code
-        when "400" then raise Exceptions::BadRequest.new(request, response)
-        when "403" then raise Exceptions::AuthorizationFailed.new(request, response)
-        when "429" then raise Exceptions::LimitExceeded.new(request, response)
-        when "456" then raise Exceptions::QuotaExceeded.new(request, response)
+        when '400' then raise Exceptions::BadRequest.new(request, response)
+        when '403' then raise Exceptions::AuthorizationFailed.new(request, response)
+        when '429' then raise Exceptions::LimitExceeded.new(request, response)
+        when '456' then raise Exceptions::QuotaExceeded.new(request, response)
         else raise Exceptions::RequestError.new(request, response)
         end
       end
